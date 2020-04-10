@@ -1,0 +1,12 @@
+# see sieve of Erasthenes (and others)
+# If prim is divisible by any number between 2 and prim (prime#), it is not prime 
+data1 = []
+for prim in range(0, 100): 
+  if prim > 1: 
+	  for n in range(2, prim): #this loop determines if the value is prime
+		  if (prim % n) == 0: 
+			  break
+	  else: 
+		  data1.append(prim)
+print(data1)
+print('\nPrime Numbers Between 0 and 100.' )

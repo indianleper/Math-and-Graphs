@@ -1,0 +1,23 @@
+#Sine wave graph 
+import matplotlib.pyplot as plot
+import pandas as pd
+import numpy as np
+import scipy as sp
+
+x = np.arange(0, 6.3, 0.01);
+y = np.sin(x)
+
+plot.plot(x, y)
+
+#title for the sine wave plot
+plot.title('sin(x)')
+
+# Give x axis label for the sine wave plot
+plot.xlabel('x')
+plot.ylabel('y = sin(x)')
+
+plot.grid(True, which='both') #allows grid
+
+# Display the sine wave
+plot.show()
+
