@@ -1,13 +1,16 @@
 import praw #reddit api lib (wrapper)
 import matplotlib.pyplot as plt #graph lib
 import numpy as np #math lib
-#- - - (http://www.reddit.com/r/politics)
+'''
+This file scrapes the r/Politics sub on Reddit (http://www.reddit.com/r/politics) and computes the percent of posts that mention Trump, then provides a graph that shows the amount of Trump posts as a function of total posts over time. 
+'''
+# - - -
 reddit =  praw.Reddit(client_id = '',
 		client_secret = '',		
 		username = 'botticus9',
 		password = '',
 		user_agent = 'botticus v 0.1', )
-#- - -
+# - - -
 subreddit = reddit.subreddit('politics')
 pol_title = []
 trump_title = []
@@ -51,4 +54,4 @@ plt.xlabel('Political Posts')
 plt.ylabel('Trump Titles')
 plt.show()
 # - - - (End)
-#This file scrapes the r/Politics sub on Reddit (http://www.reddit.com/r/politics) and computes the percent of posts that mention Trump, #then provides a graph that shows the amount of Trump posts as a function of total posts over time. 
+
