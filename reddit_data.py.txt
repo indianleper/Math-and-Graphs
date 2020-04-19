@@ -2,10 +2,10 @@ import praw #reddit api lib (wrapper)
 import matplotlib.pyplot as plt #graph lib
 import numpy as np #math lib
 #- - - 
-reddit =  praw.Reddit(client_id = 'YBhCNZuKWyhNBA',
-		client_secret = 'oiNkFHuq8MMTatZrqtya19YLm_0',		
+reddit =  praw.Reddit(client_id = '',
+		client_secret = '',		
 		username = 'botticus9',
-		password = 'aliensrule09',
+		password = '',
 		user_agent = 'botticus v 0.1', )
 #- - -
 subreddit = reddit.subreddit('politics')
