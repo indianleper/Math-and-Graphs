@@ -51,3 +51,4 @@ plt.xlabel('Political Posts')
 plt.ylabel('Trump Titles')
 plt.show()
 # - - - (End)
+#This file scrapes the r/Politics sub on Reddit (http://www.reddit.com/r/politics) and computes the percent of posts that mention Trump, #then provides a graph that shows the amount of Trump posts as a function of total posts over time. 
