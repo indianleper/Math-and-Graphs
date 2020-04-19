@@ -1,7 +1,7 @@
 import praw #reddit api lib (wrapper)
 import matplotlib.pyplot as plt #graph lib
 import numpy as np #math lib
-#- - - 
+#- - - (http://www.reddit.com/r/politics)
 reddit =  praw.Reddit(client_id = '',
 		client_secret = '',		
 		username = 'botticus9',
