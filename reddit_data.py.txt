@@ -24,12 +24,6 @@ for i in range(0, 4):
 	print(pol_title[i], '\n')
 print('\n')
 
-print('4 examples of r/politics titles: ')
-print('\n')
-for i in range(0, 4):
-	print(pol_title[i], '\n')
-print('\n')
-
 j = len(trump_title)
 k = len(pol_title)
 print(((j/k)*100), '% of posts are about Trump')
