@@ -1,0 +1,59 @@
+import praw #reddit api lib (wrapper)
+import matplotlib.pyplot as plt #graph lib
+import numpy as np #math lib
+#- - - 
+reddit =  praw.Reddit(client_id = 'YBhCNZuKWyhNBA',
+		client_secret = 'oiNkFHuq8MMTatZrqtya19YLm_0',		
+		username = 'botticus9',
+		password = 'aliensrule09',
+		user_agent = 'botticus v 0.1', )
+#- - -
+subreddit = reddit.subreddit('politics')
+pol_title = []
+trump_title = []
+
+hot_pol = subreddit.hot(limit = 99)
+for submission in hot_pol:
+		pol_title.append(submission.title.title())
+		if 'trump' in submission.title.lower():
+			trump_title.append(pol_title)
+print('\n')
+print('4 examples of r/politics titles: ')
+print('\n')
+for i in range(0, 4):
+	print(pol_title[i], '\n')
+print('\n')
+
+print('4 examples of r/politics titles: ')
+print('\n')
+for i in range(0, 4):
+	print(pol_title[i], '\n')
+print('\n')
+
+j = len(trump_title)
+k = len(pol_title)
+print(((j/k)*100), '% of posts are about Trump')
+# i, j variables of respective indices
+# - - -
+#Compiles list of which titles (by index) mention Trump.
+x = []
+y = []
+total_index = [] #reference (0, 99)
+for title in pol_title:
+	kip = pol_title.index(title)
+	total_index.append(kip)
+	if 'trump' in title.lower():
+		x.append(kip)
+#print(x)
+#print(len(x))
+for integer in range(0, len(x)):
+	y.append(integer)
+# - - -
+#graph:
+plt.plot(x, y, 'm')
+plt.grid(color='b', linestyle='-', linewidth=0.7)
+plt.title('Last 100 Most Popular Posts in r/Politics that Mention Trump')
+plt.xlabel('Political Posts')
+plt.ylabel('Trump Titles')
+plt.show()
+# - - - (End)
