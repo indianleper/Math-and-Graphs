@@ -1,0 +1,147 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import openpyxl
+
+print(' - - - - - - - - - - - - ')
+print('Accessing Excel Database...')
+print(' - - - ')
+
+wb = openpyxl.load_workbook('Leda.Health.Internship.xlsx')
+print(wb.sheetnames)
+print(' - - - ')
+print('Loading Survey Questions...')
+print(' - - - ')
+
+sheet = wb['raw']
+decide_ = input('Show all survey questions? Enter \'y\' for yes, any other key for no. ')
+if decide_ == 'y':
+	for i in range(1, 41):
+		print(str(i) + '.', sheet.cell(row = 1, column = i).value, '\n')
+else:
+	print(' 1. Do you trust the police?', '\n', '2. Did you report assault during the COVID-19 pandemic?')
+print(' - - - ')
+print('We will look at who responded positively to trusting the police (definitely or slightly yes) and of those who reported assault.')
+print(' - - - ')
+print('Analysing Survey Results...')
+print(' - - - ')
+
+maxR = sheet.max_row
+maxC = sheet.max_column
+
+police_trust = ['Definitely no', 'Slightly no', 'Neutral', 'Slightly yes', 'Definitely yes', 'None'] 
+police_trust_dn = []
+police_trust_sn = []
+police_trust_n = []
+police_trust_dy = []
+police_trust_sy = []
+police_trust_none = []
+index_favorable = []
+index_unfavorable = []
+
+police_report = ['Yes', 'No', 'None', 'Yes', 'No', 'None'] #repeated because I am working with indices, 1st list starts with set of 6 elements, should match for indices to be unchanged. Should not skew data as all choices equally inflated by 2.
+police_report_y = []
+police_report_n = []
+police_report_none = []
+
+for j in range(5, maxR):
+	police_trust.append(sheet.cell(row = j, column = 32).value)
+for response_police_trust in police_trust:
+	kip = police_trust.index(response_police_trust)
+	if response_police_trust == 'Definitely no':
+		police_trust_dn.append(kip)
+	elif response_police_trust =='Slightly no':
+		police_trust_sn.append(kip)
+	elif response_police_trust =='Neutral':
+		police_trust_n.append(kip)
+	elif response_police_trust == 'Slightly yes':
+		police_trust_dy.append(kip)
+	elif response_police_trust == 'Definitely yes':
+		police_trust_sy.append(kip)
+	elif response_police_trust == 'None':
+		police_trust_none.append(kip)
+	else:
+		pass
+for k in range(5, maxR):
+	police_report.append(sheet.cell(row = k, column = 21).value)
+for response_police_report in police_report:
+	jip = police_report.index(response_police_report)
+	if response_police_report == 'Yes':
+		police_report_y.append(jip)
+	elif response_police_report =='No':
+		police_report_n.append(jip)
+	elif response_police_report =='None':
+		police_report_none.append(jip)
+	else:
+		pass
+for x in range(0, len(police_trust)):
+	kolt = police_trust[x]
+	kalt = police_report[x]
+	if 'yes' in kolt.lower() and kalt.lower():
+		index_favorable.append(x)
+	if 'no' in kolt.lower() and kalt.lower():
+		index_unfavorable.append(x)
+
+#pc = percent
+pc_pol_dn = (len(police_trust_dn)/len(police_trust))*100
+pc_pol_sn = (len(police_trust_sn)/len(police_trust))*100
+pc_pol_n = (len(police_trust_n)/len(police_trust))*100
+pc_pol_sy = (len(police_trust_dy)/len(police_trust))*100
+pc_pol_dy = (len(police_trust_sy)/len(police_trust))*100
+pc_pol_none = (len(police_trust_none)/len(police_trust))*100
+
+pc_pol_rep_y = (len(police_report_y)/len(police_report))*100
+pc_pol_rep_n = (len(police_report_n)/len(police_report))*100
+pc_pol_rep_none = (len(police_report_none)/len(police_report))*100
+
+pc_trust_report = (len(index_favorable)/len(police_report))*100
+palty = len(police_report)-len(index_favorable)
+pc_trust_no_rep = (palty/len(police_report))*100
+
+pc_no_tru_rep = (len(index_unfavorable)/len(police_report))*100
+polty = len(police_report)-len(index_unfavorable)
+pc_no_tru_no_r = (polty/len(police_report))*100
+
+print('Loading Graphs...')
+print(' - - - ')
+
+fig, axs = plt.subplots(2, 2)
+labels_trust = 'Definitely No', 'Slightly No', 'Neutral', 'Slightly Yes', 'Definitely Yes', 'None'
+sizes_trust = [pc_pol_dn, pc_pol_sn, pc_pol_n, pc_pol_sy, pc_pol_dy, pc_pol_none]
+#explode = (0, 0, 0, 0.1, 0.1, 0) only "explode" the 4th, 5th slice (sy/ dy)
+
+ax1 = axs[0, 0]
+ax1.pie(sizes_trust, explode=(0, 0, 0, 0.1, 0.1, 0), labels=labels_trust, autopct='%1.1f%%',
+        shadow=True, startangle = 90)
+ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+ax1.set_title('Do you trust the police?')
+
+ax2 = axs[0, 1]
+labels_report = 'Yes', 'No', 'None'
+sizes_report = [pc_pol_rep_y, pc_pol_rep_n, pc_pol_rep_none]
+#explode = (0.1, 0, 0) only "explode" the 1st slice (y)
+ax2.pie(sizes_report, explode=(0.1, 0, 0), labels=labels_report, autopct='%1.1f%%',
+        shadow=True, startangle = 90)
+ax2.axis('equal')
+ax2.set_title('Did you report assault?')
+
+ax3 = axs[1, 0]
+labels_trust_report = 'Yes', 'No'
+sizes_trust_report = [pc_trust_report, pc_trust_no_rep]
+ax3.pie(sizes_trust_report, explode=(0.1, 0), labels=labels_trust_report, autopct='%1.1f%%',
+        shadow=True, startangle = 90)
+ax3.axis('equal')
+ax3.set_title('If you do trust the police, did you report assault?')
+
+ax4 = axs[1, 1]
+labels_no_tru_report = 'Yes', 'No'
+sizes_no_tru_report = [pc_no_tru_rep, pc_no_tru_no_r]
+ax4.pie(sizes_no_tru_report, explode=(0.1, 0), labels=labels_no_tru_report, autopct='%1.1f%%',
+        shadow=True, startangle = 90)
+ax4.axis('equal')
+ax4.set_title('If you did report assault, do you trust the police?')
+
+plt.show()
+
+# - END -
+
+
