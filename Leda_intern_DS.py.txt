@@ -142,8 +142,6 @@ ax4.set_title('Since you reported assault, do you trust police?')
 
 plt.show()
 
-print('The last 2 charts show those who may have a propensity to report assault because they hold a favorable view of the police, compared to those who reported assault and may or may not trust the police.')
-
 # - END -
 
 
